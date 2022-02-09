@@ -1,10 +1,11 @@
 package com.freestyle.netty.customcode;
 
-import com.freestyle.netty.client.GeneralNettyClientFactory;
-import com.freestyle.netty.client.interfaces.IGeneralClient;
-import com.freestyle.netty.codes.CustomFrameDecoder;
-import com.freestyle.netty.codes.CustomFrameEncoder;
-import com.freestyle.netty.common.Utils;
+
+import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
+import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
+import com.freestyle.netty.easynetty.codes.CustomFrameDecoder;
+import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
+import com.freestyle.netty.easynetty.common.Utils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -23,7 +24,7 @@ public class CustomCodeClientMultiProtocolTest {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4));
         pipeline.addLast(new LengthFieldPrepender(4))
-        .addLast("userDecoder",new CustomFrameDecoder<>(CodeConsts.UserHeader,b->Utils.fromJsonBytes(b,UserInfo.class)))
+        .addLast("userDecoder",new CustomFrameDecoder<>(CodeConsts.UserHeader,b-> Utils.fromJsonBytes(b,UserInfo.class)))
                 .addLast("orderDecoder",new CustomFrameDecoder<>(CodeConsts.OrderHeader,b->Utils.fromJsonBytes(b,OrderInfo.class)))
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, CodeConsts.UserHeader, Utils::toJsonBytes))
                 .addLast("orderEncoder",new CustomFrameEncoder<>(OrderInfo.class,CodeConsts.OrderHeader,Utils::toJsonBytes))

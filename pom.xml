@@ -13,7 +13,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.freestyle.netty</groupId>
+            <groupId>io.github.tiger822</groupId>
             <artifactId>easynetty</artifactId>
             <version>1.0.1.SNAPSHOT</version>
         </dependency>

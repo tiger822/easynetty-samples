@@ -1,7 +1,9 @@
 package com.freestyle.netty.promise;
 
-import com.freestyle.netty.lock.StampedLockPromiseUtil;
-import com.freestyle.netty.lock.interfaces.PromiseUtil;
+
+
+import com.freestyle.netty.easynetty.lock.StampedLockPromiseUtil;
+import com.freestyle.netty.easynetty.lock.interfaces.PromiseUtil;
 
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;

@@ -1,10 +1,10 @@
 package com.freestyle.netty.protobuf.client;
 
-import com.freestyle.netty.client.ProtobufMesssageNettyClientFactory;
-import com.freestyle.netty.client.interfaces.IProtobufMessageClient;
+
+import com.freestyle.netty.easynetty.client.ProtobufMesssageNettyClientFactory;
+import com.freestyle.netty.easynetty.client.interfaces.IProtobufMessageClient;
+import com.freestyle.netty.easynetty.common.MessageUtil;
 import com.freestyle.netty.protobuf.pojo.ChatBean;
-import com.freestyle.netty.client.ProtobufMessageClient;
-import com.freestyle.netty.common.MessageUtil;
 import com.freestyle.protobuf.proto.MessageOuterClass;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

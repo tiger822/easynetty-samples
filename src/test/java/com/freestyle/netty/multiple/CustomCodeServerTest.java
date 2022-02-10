@@ -1,12 +1,14 @@
 package com.freestyle.netty.multiple;
 
-import com.freestyle.netty.codes.CustomFrameEncoder;
-import com.freestyle.netty.codes.JsonMultipleDecode;
-import com.freestyle.netty.common.Utils;
+
 import com.freestyle.netty.customcode.OrderInfo;
 import com.freestyle.netty.customcode.UserInfo;
-import com.freestyle.netty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.server.intefaces.IGeneralServer;
+import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
+import com.freestyle.netty.easynetty.codes.JsonMultipleDecode;
+import com.freestyle.netty.easynetty.common.Utils;
+
+import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
+import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;

@@ -1,10 +1,11 @@
 package com.freestyle.netty.customcode;
 
-import com.freestyle.netty.client.GeneralNettyClientFactory;
-import com.freestyle.netty.client.interfaces.IGeneralClient;
-import com.freestyle.netty.codes.CustomFrameDecoder;
-import com.freestyle.netty.codes.CustomFrameEncoder;
-import com.freestyle.netty.common.Utils;
+
+import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
+import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
+import com.freestyle.netty.easynetty.codes.CustomFrameDecoder;
+import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
+import com.freestyle.netty.easynetty.common.Utils;
 import io.netty.channel.*;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
@@ -24,7 +25,7 @@ public class CustomCodeClientUserInfoTest {
         pipeline.addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4));
         pipeline.addLast(new LengthFieldPrepender(4))
         .addLast("userDecoder",new CustomFrameDecoder<UserInfo>(CodeConsts.UserHeader, b -> Utils.fromJsonBytes(b, UserInfo.class)))
-                .addLast("userEncoder",new CustomFrameEncoder<UserInfo>(UserInfo.class,CodeConsts.UserHeader,o->Utils.toJsonBytes(o)))
+                .addLast("userEncoder",new CustomFrameEncoder<UserInfo>(UserInfo.class,CodeConsts.UserHeader, o->Utils.toJsonBytes(o)))
                   .addLast(new SimpleChannelInboundHandler() {
                     @Override
                     @SuppressWarnings("deprecation")

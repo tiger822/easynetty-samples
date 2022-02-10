@@ -1,9 +1,9 @@
 package com.freestyle.netty.general.server;
 
-import com.freestyle.netty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.server.GeneralServer;
-import com.freestyle.netty.server.GeneralServerProtobufInitailizer;
-import com.freestyle.netty.server.intefaces.IGeneralServer;
+
+import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
+import com.freestyle.netty.easynetty.server.GeneralServerProtobufInitailizer;
+import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
 import io.netty.channel.ChannelOption;
 
 /**

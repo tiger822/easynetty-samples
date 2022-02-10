@@ -1,8 +1,8 @@
 package com.freestyle.netty.general.client;
 
-import com.freestyle.netty.client.GeneralClient;
-import com.freestyle.netty.client.GeneralNettyClientFactory;
-import com.freestyle.netty.client.interfaces.IGeneralClient;
+
+import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
+import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
 import com.freestyle.protobuf.proto.MessageOuterClass;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;

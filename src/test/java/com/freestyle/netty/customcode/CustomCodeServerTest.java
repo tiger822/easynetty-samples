@@ -1,20 +1,17 @@
 package com.freestyle.netty.customcode;
 
-import com.freestyle.netty.codes.AbstractCodeSelector;
-import com.freestyle.netty.codes.CustomFrameDecoder;
-import com.freestyle.netty.codes.CustomFrameEncoder;
-import com.freestyle.netty.common.Utils;
-import com.freestyle.netty.general.client.pojo.Order;
-import com.freestyle.netty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.server.intefaces.IGeneralServer;
-import com.google.common.collect.Ordering;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
-import io.netty.channel.socket.SocketChannel;
+
+import com.freestyle.netty.easynetty.codes.CustomFrameDecoder;
+import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
+import com.freestyle.netty.easynetty.common.Utils;
+import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
+import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-
-import java.util.function.Consumer;
 
 /**
  * Created by rocklee on 2022/1/25 15:33
@@ -32,7 +29,7 @@ public class CustomCodeServerTest {
                 .addLast(new LengthFieldPrepender(4))
                 .addLast("orderEncoder", new CustomFrameEncoder<>(OrderInfo.class, CodeConsts.OrderHeader, o -> Utils.toJsonBytes(o)))
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, CodeConsts.UserHeader, o -> Utils.toJsonBytes(o)))
-                .addLast("userDecoder",new CustomFrameDecoder<>(CodeConsts.UserHeader,b->Utils.fromJsonBytes(b,UserInfo.class)))
+                .addLast("userDecoder",new CustomFrameDecoder<>(CodeConsts.UserHeader, b->Utils.fromJsonBytes(b,UserInfo.class)))
                 .addLast("orderDecoder",new CustomFrameDecoder<>(CodeConsts.OrderHeader,b->Utils.fromJsonBytes(b,OrderInfo.class)))
                 .addLast(new SimpleChannelInboundHandler() {
                   @Override

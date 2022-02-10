@@ -1,10 +1,11 @@
 package com.freestyle.netty.customcode;
 
-import com.freestyle.netty.client.GeneralNettyClientFactory;
-import com.freestyle.netty.client.interfaces.IGeneralClient;
-import com.freestyle.netty.codes.CustomFrameDecoder;
-import com.freestyle.netty.codes.CustomFrameEncoder;
-import com.freestyle.netty.common.Utils;
+
+import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
+import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
+import com.freestyle.netty.easynetty.codes.CustomFrameDecoder;
+import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
+import com.freestyle.netty.easynetty.common.Utils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
@@ -24,8 +25,8 @@ public class CustomCodeClientOrderInfoTest {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4));
         pipeline.addLast(new LengthFieldPrepender(4))
-        .addLast("orderDecoder",new CustomFrameDecoder<OrderInfo>(CodeConsts.OrderHeader,b->Utils.fromJsonBytes(b,OrderInfo.class)))
-                .addLast("orderEncoder",new CustomFrameEncoder<OrderInfo>(OrderInfo.class,CodeConsts.OrderHeader,o->Utils.toJsonBytes(o)))
+        .addLast("orderDecoder",new CustomFrameDecoder<OrderInfo>(CodeConsts.OrderHeader, b-> Utils.fromJsonBytes(b,OrderInfo.class)))
+                .addLast("orderEncoder",new CustomFrameEncoder<OrderInfo>(OrderInfo.class,CodeConsts.OrderHeader, o->Utils.toJsonBytes(o)))
                 .addLast(new SimpleChannelInboundHandler() {
                   @Override
                   public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {

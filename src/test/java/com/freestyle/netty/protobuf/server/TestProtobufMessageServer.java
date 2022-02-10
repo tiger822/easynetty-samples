@@ -1,9 +1,9 @@
 package com.freestyle.netty.protobuf.server;
 
+import com.freestyle.netty.easynetty.common.MessageUtil;
+import com.freestyle.netty.easynetty.server.ProtobufMessageNettyServerFactory;
+import com.freestyle.netty.easynetty.server.intefaces.IProtobufMessageServer;
 import com.freestyle.netty.protobuf.pojo.ChatBean;
-import com.freestyle.netty.server.ProtobufMessageNettyServerFactory;
-import com.freestyle.netty.common.MessageUtil;
-import com.freestyle.netty.server.intefaces.IProtobufMessageServer;
 import com.freestyle.protobuf.proto.MessageOuterClass;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
@@ -28,7 +28,7 @@ public class TestProtobufMessageServer {
         protected void channelRead0(ChannelHandlerContext ctx, MessageOuterClass.Message msg) throws Exception {
           System.out.println(String.format("Server:收到来自UUID:%s的信息",msg.getProperties().getUuid()));
           if (msg.getProperties().getSClass().contains("String")){
-            System.out.println("Server<<:"+MessageUtil.dePackFromMessage(msg));
+            System.out.println("Server<<:"+ MessageUtil.dePackFromMessage(msg));
           }
           else {
             ChatBean chatBean = (ChatBean) MessageUtil.dePackFromMessage(msg);

@@ -1,7 +1,7 @@
 package com.freestyle.netty.customcode;
 
-import com.freestyle.netty.codes.CustomFrameDecoder;
-import com.freestyle.netty.common.Utils;
+import com.freestyle.netty.easynetty.codes.CustomFrameDecoder;
+import com.freestyle.netty.easynetty.common.Utils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 

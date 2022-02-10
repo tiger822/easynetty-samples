@@ -1,20 +1,17 @@
 package com.freestyle.netty.promise;
 
-import com.freestyle.netty.pojo.Message;
+
+import com.freestyle.netty.easynetty.pojo.Message;
+import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
+import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
 import com.freestyle.netty.promise.code.MessageDecode;
 import com.freestyle.netty.promise.code.MessageEncode;
-import com.freestyle.netty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.server.intefaces.IGeneralServer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-
-import java.util.Random;
 
 /**
  * Created by rocklee on 2022/1/29 11:01

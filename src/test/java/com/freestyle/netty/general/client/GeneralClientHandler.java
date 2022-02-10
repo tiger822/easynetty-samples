@@ -1,7 +1,8 @@
 package com.freestyle.netty.general.client;
 
+
+import com.freestyle.netty.easynetty.common.MessageUtil;
 import com.freestyle.netty.general.client.pojo.Order;
-import com.freestyle.netty.common.MessageUtil;
 import com.freestyle.protobuf.proto.MessageOuterClass;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -2,7 +2,7 @@ package com.freestyle.netty.protobuf.server;
 
 import com.freestyle.netty.easynetty.common.MessageUtil;
 import com.freestyle.netty.easynetty.server.ProtobufMessageNettyServerFactory;
-import com.freestyle.netty.easynetty.server.intefaces.IProtobufMessageServer;
+import com.freestyle.netty.easynetty.server.interfaces.IProtobufMessageServer;
 import com.freestyle.netty.protobuf.pojo.ChatBean;
 import com.freestyle.protobuf.proto.MessageOuterClass;
 import io.netty.channel.ChannelHandlerContext;

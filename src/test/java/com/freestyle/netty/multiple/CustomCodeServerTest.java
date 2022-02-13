@@ -8,7 +8,7 @@ import com.freestyle.netty.easynetty.codes.JsonMultipleDecode;
 import com.freestyle.netty.easynetty.common.Utils;
 
 import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
+import com.freestyle.netty.easynetty.server.interfaces.IGeneralServer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;

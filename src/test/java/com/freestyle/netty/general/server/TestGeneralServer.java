@@ -3,7 +3,7 @@ package com.freestyle.netty.general.server;
 
 import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
 import com.freestyle.netty.easynetty.server.GeneralServerProtobufInitailizer;
-import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
+import com.freestyle.netty.easynetty.server.interfaces.IGeneralServer;
 import io.netty.channel.ChannelOption;
 
 /**

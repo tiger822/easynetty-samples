@@ -34,7 +34,6 @@ public class Client {
                 .addLast(new SimpleChannelInboundHandler<Message>() {
                   @Override
                   protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-                    //System.out.println("<<"+msg.getProperties().getId());
                     promiseUtil.signal(msg.getProperties().getId(),msg); //通知完成
                   }
                 });

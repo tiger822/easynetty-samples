@@ -3,7 +3,7 @@ package com.freestyle.netty.promise;
 
 import com.freestyle.netty.easynetty.pojo.Message;
 import com.freestyle.netty.easynetty.server.GeneralNettyServerFactory;
-import com.freestyle.netty.easynetty.server.intefaces.IGeneralServer;
+import com.freestyle.netty.easynetty.server.interfaces.IGeneralServer;
 import com.freestyle.netty.promise.code.MessageDecode;
 import com.freestyle.netty.promise.code.MessageEncode;
 import io.netty.channel.ChannelHandlerContext;

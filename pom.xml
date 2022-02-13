@@ -40,7 +40,7 @@
         <dependency>
             <groupId>io.github.tiger822.netty</groupId>
             <artifactId>easynetty</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

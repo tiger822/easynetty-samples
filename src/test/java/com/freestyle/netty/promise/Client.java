@@ -3,10 +3,10 @@ package com.freestyle.netty.promise;
 
 import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
 import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
+import com.freestyle.netty.easynetty.dto.Message;
+import com.freestyle.netty.easynetty.dto.MessageProperties;
 import com.freestyle.netty.easynetty.lock.StampedLockPromiseUtil;
 import com.freestyle.netty.easynetty.lock.interfaces.PromiseUtil;
-import com.freestyle.netty.easynetty.pojo.Message;
-import com.freestyle.netty.easynetty.pojo.MessageProperties;
 import com.freestyle.netty.promise.code.MessageDecode;
 import com.freestyle.netty.promise.code.MessageEncode;
 import io.netty.channel.Channel;

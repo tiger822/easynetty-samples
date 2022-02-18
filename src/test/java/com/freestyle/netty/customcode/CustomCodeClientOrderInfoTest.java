@@ -41,7 +41,7 @@ public class CustomCodeClientOrderInfoTest {
       });
       Channel channel=client.getChannel();
       for (int i=1;i<=200;i++) {
-        channel.writeAndFlush(new OrderInfo("O00"+i, i));
+        channel.write(new OrderInfo("O00"+i, i));
         Thread.sleep(200);
       }
       channel.writeAndFlush(new OrderInfo("O999", 20)).sync();

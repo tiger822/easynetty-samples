@@ -6,4 +6,5 @@ package com.freestyle.netty.customcode;
 public class CodeConsts {
   public static final  byte[] UserHeader={01,01,100};
   public static final  byte[] OrderHeader={01,01,101};
+  public static final  byte[] ResponseHeader={01,01,103};
 }

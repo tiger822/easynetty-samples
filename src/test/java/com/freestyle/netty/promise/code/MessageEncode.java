@@ -3,7 +3,7 @@ package com.freestyle.netty.promise.code;
 
 import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
 import com.freestyle.netty.easynetty.common.Utils;
-import com.freestyle.netty.easynetty.pojo.Message;
+import com.freestyle.netty.easynetty.dto.Message;
 
 /**
  * Created by rocklee on 2022/1/29 11:17

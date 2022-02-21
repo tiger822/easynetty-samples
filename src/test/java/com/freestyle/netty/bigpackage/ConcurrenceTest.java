@@ -18,8 +18,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -36,13 +34,13 @@ public class ConcurrenceTest {
     System.out.println("Thread :"+Thread.currentThread().getId()+" start");
     IGeneralClient client = new GeneralNettyClientFactory().getClient("localhost", 9900);
     try {
-      int testTimes=100;
+      int testTimes=10000;
       ConcurrentHashMap<String,String> sentMap=new ConcurrentHashMap<>();
       client.run(false, ch -> {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline//.addLast(new LoggingHandler(LogLevel.INFO))
-                .addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4))
-                .addLast(new LengthFieldPrepender(4))
+                /*.addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4))
+                .addLast(new LengthFieldPrepender(4))*/
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(CodeConsts.UserHeader, UserInfo.class)
                         .registerClass(CodeConsts.OrderHeader, OrderInfo.class)
                         .registerClass(CodeConsts.ResponseHeader, JSONData.class)
@@ -87,8 +85,8 @@ public class ConcurrenceTest {
                         AtomicInteger sentC = new AtomicInteger(0);
                         int dataLen = data.length;
                         int finalDataLen = dataLen;
-                        sentMap.put("varify-"+i, MD5Utils.encryptMD5(data));
-                        util.sendData("varify-"+i, null, () -> {
+                        sentMap.put("verify-"+i, MD5Utils.encryptMD5(data));
+                        util.sendData("verify-"+i, null, () -> {
                           int st = sentC.get();
                           int frameLen = finalDataLen >= st + 100 ? 100 : finalDataLen - st;
                           byte[] bytes = Arrays.copyOfRange(data, st, st + frameLen);
@@ -113,6 +111,11 @@ public class ConcurrenceTest {
                     if (msg instanceof JSONData){
                       //检验一下数据
                       JSONData response=(JSONData) msg;
+                      if (response.getMessage().endsWith("00")){
+                         ctx.channel().eventLoop().schedule(()->{
+                            System.out.println(Thread.currentThread().getId()+":"+response.getMessage());
+                         },0,TimeUnit.SECONDS);
+                      }
                       String md5=sentMap.get(response.getMessage());
                       String md5_=(String)response.getResult();
                       if (md5.equalsIgnoreCase(md5_)){
@@ -145,7 +148,7 @@ public class ConcurrenceTest {
     }
   }
   public static void main(String[] args) throws InterruptedException {
-    CompletableFuture<Void>[] tasks=new CompletableFuture[50];
+    CompletableFuture<Void>[] tasks=new CompletableFuture[60];
     for (int i=0;i<tasks.length;i++){
       tasks[i]= CompletableFuture.runAsync(()-> {
         runTask();

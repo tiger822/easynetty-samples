@@ -15,8 +15,6 @@ import com.freestyle.netty.easynetty.dto.JSONData;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -105,7 +103,6 @@ public class Client {
         sentC.set(st+frameLen);
         return bytes;
       },dataLen);
-
       client.getChannel().closeFuture().sync();
     } catch (InterruptedException e) {
       e.printStackTrace();

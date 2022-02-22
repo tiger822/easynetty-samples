@@ -22,6 +22,8 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by rocklee on 2022/1/25 15:33
  */
@@ -37,7 +39,7 @@ public class CustomCodeServerTest {
         pipeline//.addLast(new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4))
                 //.addLast(new LengthFieldPrepender(4))
                 .addLast(new LoggingHandler(LogLevel.INFO))
-                .addLast("anotherDecoder",new CustomFrameDecoder<>(new byte[]{1,2,3,4},b->Utils.fromJsonBytes(b, JSONData.class)).setReDeliverRawData(false))
+                .addLast("anotherDecoder",new CustomFrameDecoder<>(1234,b->Utils.fromJsonBytes(b, JSONData.class)).setReDeliverRawData(false))
                 .addLast("orderEncoder", new CustomFrameEncoder<>(OrderInfo.class, Consts.OrderInfoHeader, o -> Utils.toJsonBytes(o)))
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, Consts.UserInfoHeader, o -> Utils.toJsonBytes(o)))
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(Consts.OrderInfoHeader, OrderInfo.class)
@@ -45,31 +47,32 @@ public class CustomCodeServerTest {
                 .addLast(new SimpleChannelInboundHandler() {
                   @Override
                   protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-                    if (msg instanceof UserInfo) {
-                      //System.out.println("Client<<<:"+msg.toString());
-                      UserInfo userInfo=(UserInfo)msg;
-                     // userInfo.setUserName(userInfo.getUserName() + ",srv");
-                     // ctx.channel().writeAndFlush(msg);
-                      System.out.println("recved:"+userInfo.getUserId());
-                      if (userInfo.getUserId().equalsIgnoreCase("B001")) {
-                        ctx.close().sync();
+                    ctx.channel().eventLoop().schedule(()->{
+                      if (msg instanceof UserInfo) {
+                        //System.out.println("Client<<<:"+msg.toString());
+                        UserInfo userInfo=(UserInfo)msg;
+                        // userInfo.setUserName(userInfo.getUserName() + ",srv");
+                        // ctx.channel().writeAndFlush(msg);
+                        System.out.println("recved:"+userInfo.getUserId());
+                        if (userInfo.getUserId().equalsIgnoreCase("B001")) {
+                          ctx.channel().close();
+                        }
                       }
-                    }
-                    else if (msg instanceof OrderInfo){
-                      OrderInfo orderInfo=(OrderInfo) msg;
-                     // ctx.channel().writeAndFlush(orderInfo);
-                      System.out.println("recved:"+orderInfo.getUserId());
-                      if (orderInfo.getUserId().equalsIgnoreCase("O999")){
-                        ctx.close().sync();
+                      else if (msg instanceof OrderInfo){
+                        OrderInfo orderInfo=(OrderInfo) msg;
+                        // ctx.channel().writeAndFlush(orderInfo);
+                        System.out.println("recved:"+orderInfo.getUserId());
+                        if (orderInfo.getUserId().equalsIgnoreCase("O999")){
+                          ctx.channel().close();
+                        }
                       }
-                    }
-                    else if (msg instanceof JSONData){
-                      System.out.println(msg);
-                    }
-                    else {
-                      System.out.println(msg);
-                    }
-
+                      else if (msg instanceof JSONData){
+                        System.out.println(msg);
+                      }
+                      else {
+                        System.out.println(msg);
+                      }
+                    },0, TimeUnit.SECONDS);
                   }
                 });
 

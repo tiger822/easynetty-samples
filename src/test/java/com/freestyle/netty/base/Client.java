@@ -34,7 +34,7 @@ public class Client {
                 .addLast(new IdleStateHandler(20,20,20))
                 .addLast("orderEncoder", new CustomFrameEncoder<>(OrderInfo.class, Consts.OrderInfoHeader, Utils::toJsonBytes))
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, Consts.UserInfoHeader, Utils::toJsonBytes))
-                .addLast("anotherEncoder",new CustomFrameEncoder<>(JSONData.class,new byte[]{1,2,3,4},Utils::toJsonBytes))
+                .addLast("anotherEncoder",new CustomFrameEncoder<>(JSONData.class,1234,Utils::toJsonBytes))
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(Consts.OrderInfoHeader, OrderInfo.class)
                         .registerClass(Consts.UserInfoHeader,UserInfo.class))
                 .addLast(new SimpleChannelInboundHandler() {
@@ -78,9 +78,7 @@ public class Client {
       client.getChannel().write(JSONData.fromErr(1,1,"err message"));
       client.getChannel().writeAndFlush(new UserInfo("B001", "陳大文", 20));
       client.getChannel().closeFuture().sync();
-      while (client.isConnected()){
-        Thread.sleep(100);
-      }
+
     } catch (InterruptedException e) {
       e.printStackTrace();
     } finally {

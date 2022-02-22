@@ -16,6 +16,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by rocklee on 2022/1/29 11:10
  */
@@ -34,7 +36,9 @@ public class Client {
                 .addLast(new SimpleChannelInboundHandler<Message>() {
                   @Override
                   protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-                    promiseUtil.signal(msg.getProperties().getId(),msg); //通知完成
+                    ctx.channel().eventLoop().schedule(()->{
+                      promiseUtil.signal(msg.getProperties().getId(),msg); //通知完成
+                    },0, TimeUnit.SECONDS);
                   }
                 });
       });
@@ -47,8 +51,6 @@ public class Client {
             Long lock=promiseUtil.newLock(Message.class);
             Message<String> msgToSend=new Message<String>(new MessageProperties("", lock, ""), String.format("第%d个信息。。。", finalI));
             channel.writeAndFlush(msgToSend).sync();
-           // System.out.println(">>"+lock);
-            //System.out.println("pool size:"+((StampedLockPromiseUtil)promiseUtil).getLockPoolSize());
             Message returnMessage = promiseUtil.await(Message.class);
             if (returnMessage==null){
               throw new IllegalStateException("出错了");
@@ -56,15 +58,11 @@ public class Client {
             if (msgToSend.getProperties().getId()!=returnMessage.getProperties().getId()){
               throw new IllegalStateException("出错了");
             }
-            //System.out.println(String.format("Current TID:%d,%s",Thread.currentThread().getId(),returnMessage));
-            //System.out.println(returnMessage);
           } catch (InterruptedException e) {
             e.printStackTrace();
           } finally {
             promiseUtil.release(Message.class);
           }
-        //});
-        //System.out.println("sent:"+msgToSend.getData()+"|recved:"+returnMessage.getData());
       }
      // channel.closeFuture().sync();
       System.out.println("consumed:"+(System.currentTimeMillis()-tm)+"ms");

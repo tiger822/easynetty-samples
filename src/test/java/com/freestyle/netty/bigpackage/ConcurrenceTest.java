@@ -17,6 +17,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -33,7 +35,7 @@ public class ConcurrenceTest {
     System.out.println("Thread :"+Thread.currentThread().getId()+" start");
     IGeneralClient client = new GeneralNettyClientFactory().getClient("localhost", 9900);
     try {
-      int testTimes=10000;
+      int testTimes=1000;
       ConcurrentHashMap<String,String> sentMap=new ConcurrentHashMap<>();
       client.run(false, ch -> {
         ChannelPipeline pipeline = ch.pipeline();
@@ -133,7 +135,7 @@ public class ConcurrenceTest {
     }
   }
   public static void main(String[] args) throws InterruptedException {
-    CompletableFuture<Void>[] tasks=new CompletableFuture[60];
+    CompletableFuture<Void>[] tasks=new CompletableFuture[50];
     for (int i=0;i<tasks.length;i++){
       tasks[i]= CompletableFuture.runAsync(()-> {
         runTask();

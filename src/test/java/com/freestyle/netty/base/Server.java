@@ -41,7 +41,7 @@ public class Server {
                 .addLast(new IdleStateHandler(30,30,30))
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(Consts.OrderInfoHeader, OrderInfo.class)
                 .registerClass(Consts.UserInfoHeader,UserInfo.class).setReDeliverRawData(false)
-                .registerClass(new byte[]{1,2,3,4},JSONData.class))
+                .registerClass(1234,JSONData.class))
                 .addLast(new SimpleChannelInboundHandler() {
                   @Override
                   public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -80,13 +80,9 @@ public class Server {
                       OrderInfo orderInfo=(OrderInfo) msg;
                       ctx.channel().eventLoop().schedule(()->{
                         System.out.println("recved:"+orderInfo.getUserId());
-                        /*if (orderInfo.getUserId().equalsIgnoreCase("O999")){
-                          try {
-                            ctx.close().sync();
-                          } catch (InterruptedException e) {
-                            e.printStackTrace();
-                          }
-                        }*/
+                        if (orderInfo.getUserId().equalsIgnoreCase("O999")){
+                          ctx.channel().close();
+                        }
                      },0, TimeUnit.SECONDS);
                     }
                     else if (msg instanceof JSONData){

@@ -31,11 +31,8 @@ public class Server {
                 .addLast(new SimpleChannelInboundHandler<Message>() {
                   @Override
                   protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-                    /*int n=new Random(new Random().nextInt(10000)).nextInt(100);
-                    Thread.sleep(n);*/
                     int n=1;
                     Message<String> message=new Message<>(msg.getProperties(),"这是服务器发回的内容内容:"+msg.getData()+",n="+n);
-                   // System.out.println(message.getProperties().getId());
                     ctx.pipeline().writeAndFlush(message);
                   }
                 });

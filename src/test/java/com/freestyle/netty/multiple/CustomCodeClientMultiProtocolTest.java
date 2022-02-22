@@ -19,6 +19,8 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by rocklee on 2022/1/25 15:50
  */
@@ -33,7 +35,7 @@ public class CustomCodeClientMultiProtocolTest {
                 .addLast(new LoggingHandler(LogLevel.INFO))
                 .addLast("orderEncoder", new CustomFrameEncoder<>(OrderInfo.class, Consts.OrderInfoHeader, Utils::toJsonBytes))
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, Consts.UserInfoHeader, Utils::toJsonBytes))
-                .addLast("anotherEncoder",new CustomFrameEncoder<>(JSONData.class,new byte[]{1,2,3,4},Utils::toJsonBytes))
+                .addLast("anotherEncoder",new CustomFrameEncoder<>(JSONData.class,1234,Utils::toJsonBytes))
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(Consts.OrderInfoHeader, OrderInfo.class)
                         .registerClass(Consts.UserInfoHeader,UserInfo.class))
                 .addLast(new SimpleChannelInboundHandler() {
@@ -55,24 +57,18 @@ public class CustomCodeClientMultiProtocolTest {
                     }
                   @Override
                   protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-                    System.out.println("Server<<" +msg.getClass().getSimpleName()+","+ msg.toString());
+                      ctx.channel().eventLoop().schedule(()->{
+                        System.out.println("Server<<" +msg.getClass().getSimpleName()+","+ msg.toString());
+                      },0, TimeUnit.SECONDS);
                   }
                 });
       });
       for (int i=0;i<2000;i++) {
-        if (i%100==0){
-          client.getChannel().write(new UserInfo("U"+i, "陳大文", 20));
-          client.getChannel().writeAndFlush(new OrderInfo("O"+i, 11));
-          Thread.sleep(200);
-        }
-        else{
           client.getChannel().write(new UserInfo("U"+i, "陳大文", 20));
           client.getChannel().write(new OrderInfo("O"+i, 11));
-        }
       }
       client.getChannel().write(JSONData.fromErr(1,1,"err message"));
       client.getChannel().writeAndFlush(new UserInfo("B001", "陳大文", 20));
-      Thread.sleep(30000);
       client.getChannel().closeFuture().sync();
       while (client.isConnected()){
         Thread.sleep(100);

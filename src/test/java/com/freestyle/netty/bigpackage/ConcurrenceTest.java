@@ -3,16 +3,15 @@ package com.freestyle.netty.bigpackage;
 import com.freestyle.netty.customcode.CodeConsts;
 import com.freestyle.netty.customcode.OrderInfo;
 import com.freestyle.netty.customcode.UserInfo;
-import com.freestyle.netty.easynetty.bigpackage.BigPackageChannelInboundHandler;
 import com.freestyle.netty.easynetty.bigpackage.BigPackageUtil;
 import com.freestyle.netty.easynetty.client.GeneralNettyClientFactory;
 import com.freestyle.netty.easynetty.client.interfaces.IGeneralClient;
+import com.freestyle.netty.easynetty.codes.BigPackageEncoder;
 import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
 import com.freestyle.netty.easynetty.codes.JsonMultipleDecode;
 import com.freestyle.netty.easynetty.common.MD5Utils;
 import com.freestyle.netty.easynetty.common.NettyUtil;
 import com.freestyle.netty.easynetty.common.Utils;
-import com.freestyle.netty.easynetty.dto.BigPackageProperties;
 import com.freestyle.netty.easynetty.dto.JSONData;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
+/** Launch NewServer for test
  * Created by rocklee on 2022/2/17 21:15
  */
 public class ConcurrenceTest {
@@ -47,21 +46,7 @@ public class ConcurrenceTest {
                 )
                 .addLast("userEncoder", new CustomFrameEncoder<>(UserInfo.class, CodeConsts.UserHeader, Utils::toJsonBytes))
                 .addLast("orderEncoder",new CustomFrameEncoder<>(OrderInfo.class,CodeConsts.OrderHeader,Utils::toJsonBytes))
-                //增加大数据包处理程序
-                .addLast(new BigPackageChannelInboundHandler(pipeline) {
-                  @Override
-                  public void onPackageOutput(ChannelHandlerContext ctx, BigPackageProperties properties, byte[] data) {
-                    if (data==null){
-                      System.out.println("Start to receive :"+properties.getId());
-                    }
-                    else{
-                      /*System.out.println("Receipted "+data.length);
-                      if (properties.getRt()==properties.getTotal()){
-                        System.out.println("Receipte finished");
-                      }*/
-                    }
-                  }
-                })
+                .addLast(new BigPackageEncoder())
                 .addLast(new SimpleChannelInboundHandler() {
                   @Override
                   @SuppressWarnings("deprecation")

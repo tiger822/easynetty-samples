@@ -15,6 +15,8 @@ import com.freestyle.netty.easynetty.dto.JSONData;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
+/** Launch Server for test
  * Created by rocklee on 2022/1/25 15:50
  */
 public class Client {
@@ -32,7 +34,8 @@ public class Client {
     try {
       client.run(false, ch -> {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline//.addLast(new LoggingHandler(LogLevel.INFO))
+        pipeline
+                //.addLast(new LoggingHandler(LogLevel.INFO))
                 .addLast("multiDecoder",new JsonMultipleDecode().registerClass(CodeConsts.UserHeader,UserInfo.class)
                 .registerClass(CodeConsts.OrderHeader,OrderInfo.class)
                 .registerClass(CodeConsts.ResponseHeader, JSONData.class)
@@ -84,7 +87,7 @@ public class Client {
          sentC.set(st+frameLen);
          return bytes;
       },dataLen,false);
-      for (int i=0;i<5;i++) {
+      for (int i=0;i<10;i++) {
         try (FileInputStream fis = new FileInputStream("d:/source/goland-2020.3.2.exe")) {
           util.sendData("goland-2020.3.2.exe"+i, new Date(), fis, fis.available(), 1024*100);
         } catch (IOException e) {

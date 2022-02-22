@@ -2,7 +2,6 @@ package com.freestyle.netty.bigpackage;
 
 
 import com.freestyle.netty.customcode.CodeConsts;
-import com.freestyle.netty.easynetty.bigpackage.BigPackageChannelInboundHandler;
 import com.freestyle.netty.easynetty.bigpackage.BigPackageDecoder;
 import com.freestyle.netty.easynetty.codes.BigPackageEncoder;
 import com.freestyle.netty.easynetty.codes.CustomFrameEncoder;
@@ -20,8 +19,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
